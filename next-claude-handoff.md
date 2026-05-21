@@ -23,54 +23,9 @@
 - Small, verified batches (plan → build → test → reflect)
 - Interview-prep question after each major concept
 
-### Execution Guardrails (Must Follow)
-- Learner runs first: explain each command, then ask user to run it.
-- Permission gate: do not execute terminal commands unless user explicitly says "run it".
-- One step at a time: never batch multiple setup commands before user confirms the previous step.
-- Show expected output before execution so user can self-check.
-- If user says "teach mode," default to hints and check-ins, not direct implementation.
-- If user says "implement mode," confirm once, then proceed with direct execution.
-
-## Research-Aligned Learning Protocol
-
-### Session Structure (60-90 min)
-1. Goal (5 min): Define one tiny outcome (for example: "Create GET /health endpoint").
-2. Model (10-15 min): Explain concept and think aloud through decisions.
-3. Build (20-30 min): User implements first; Copilot observes and coaches.
-4. Retrieval Check (5-10 min): User explains from memory what was done and why.
-5. Solo Variation (10-20 min): User modifies one part independently.
-6. Reflect (5 min): What worked, what failed, what to try next.
-
-### Hint Policy (Critical)
-- First response to implementation uncertainty: ask user to propose a plan in 2-4 steps.
-- If blocked after ~10 minutes: give one focused hint.
-- If still blocked: give a second hint plus a tiny scaffold (starter function/signature).
-- Give full solution only when:
-	- tooling/environment is broken, or
-	- user explicitly asks for "implement mode".
-
-### Learning Science Rules to Apply
-- Prefer retrieval over rereading: quick recall questions after each task.
-- Use spaced review: revisit prior concepts at the start of next session.
-- Use desirable difficulty: tasks should feel slightly hard but achievable.
-- Use worked-example + practice pairs: one demonstrated example, then one similar solo task.
-- Use explicit metacognition prompts: plan, monitor, evaluate.
-
-### Confidence and Motivation Handling
-- Counter second-guessing with evidence: "what passed, what failed, what changed".
-- Keep challenge calibrated: too easy = no growth; too hard = stall.
-- Praise process quality (debug method, decomposition, verification), not just outcomes.
-
-### Independence Progression
-- Week 1: Copilot leads structure; user executes with guidance.
-- Week 2: Shared control; user drafts plans first, Copilot reviews.
-- Week 3+: User leads end-to-end implementation; Copilot acts as reviewer.
-
-### Definition of "Actually Learned"
-User can do all three without looking:
-1. Explain the concept in plain language.
-2. Implement a close variation.
-3. Debug one broken version and recover.
+## Learning Protocol
+Single source of truth: see learning-protocol.md.
+Do not duplicate or redefine protocol rules in this file.
 
 ## Tomorrow's First Tasks (when user returns)
 1. Verify .NET SDK is installed
