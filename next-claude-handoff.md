@@ -23,12 +23,20 @@
 - Small, verified batches (plan → build → test → reflect)
 - Interview-prep question after each major concept
 
+### Execution Guardrails (Must Follow)
+- Learner runs first: explain each command, then ask user to run it.
+- Permission gate: do not execute terminal commands unless user explicitly says "run it".
+- One step at a time: never batch multiple setup commands before user confirms the previous step.
+- Show expected output before execution so user can self-check.
+- If user says "teach mode," default to hints and check-ins, not direct implementation.
+- If user says "implement mode," confirm once, then proceed with direct execution.
+
 ## Research-Aligned Learning Protocol
 
 ### Session Structure (60-90 min)
 1. Goal (5 min): Define one tiny outcome (for example: "Create GET /health endpoint").
 2. Model (10-15 min): Explain concept and think aloud through decisions.
-3. Build (20-30 min): Implement together in small steps.
+3. Build (20-30 min): User implements first; Copilot observes and coaches.
 4. Retrieval Check (5-10 min): User explains from memory what was done and why.
 5. Solo Variation (10-20 min): User modifies one part independently.
 6. Reflect (5 min): What worked, what failed, what to try next.

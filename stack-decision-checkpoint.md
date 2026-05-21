@@ -16,3 +16,9 @@
 
 ## Teaching-first mode active
 User wants step-by-step guidance, plain-language explanations, and interview prep for each major concept.
+
+## Learner-first execution contract
+- Copilot explains each step and asks user to run it first.
+- Copilot does not run commands unless the user explicitly approves.
+- Prefer one command at a time with expected output shown in advance.
+- Default to hints and coaching unless user explicitly requests "implement mode".
