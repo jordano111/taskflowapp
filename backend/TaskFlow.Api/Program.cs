@@ -58,7 +58,6 @@ app.MapPatch("/api/tasks/{id:guid}/status", (Guid id, UpdateTaskStatusRequest re
     if (!allowedStatuses.Contains(normalizedStatus, StringComparer.OrdinalIgnoreCase))
         return Results.BadRequest(new { message = $"Invalid status. Allowed values are: {string.Join(", ", allowedStatuses)}." });
 
-
     return Results.Ok(updated);
 });
 
@@ -69,8 +68,6 @@ app.MapGet("/api/projects/{id:guid}", (Guid id) =>
     ? Results.NotFound(new { message = "project not found." })
     : Results.Ok(project);
 });
-
-
 
 app.MapGet("/api/projects", () => Results.Ok(projects));
 
