@@ -8,122 +8,75 @@
 
 ---
 
-## Stack Options for React Backend
+## Active 60-Day Roadmap (Live Checklist)
 
-### C# + ASP.NET Core + React
-**Pros:**
-- Modern, future-proof, actively developed by Microsoft
-- Cross-platform (Windows, Linux, macOS)
-- Strong enterprise adoption, SaaS, cloud (Azure)
-- Good for new projects, not legacy maintenance
-- Versatile: desktop, web APIs, cloud services, games (Unity)
-- Strong OOP, design patterns, scalable architecture
+Use this as the single progress tracker. Check items as completed.
 
-**Cons:**
-- Steeper learning curve than PHP
-- Visual Studio can feel overwhelming initially
-- Smaller ecosystem than JavaScript, but growing
+### Locked Priority Order
+- [ ] C# + ASP.NET Core APIs
+- [ ] EF Core + SQL
+- [ ] Docker
+- [ ] Azure deployment basics
+- [ ] Razor Pages or minimal frontend
+- [ ] Semantic Kernel (one real feature)
+- [ ] React basics (collaboration level only)
+- [ ] Python only if a target job explicitly requires it
 
-**Job market:** Growing for new projects, enterprise, SaaS
+### Week 1 (API Foundations)
+- [ ] Projects and Tasks each have full CRUD endpoints
+- [ ] Input validation returns clear 400 errors
+- [ ] Missing resources return clear 404 errors
+- [ ] Swagger demo flow works end-to-end (create -> update -> delete)
+- [ ] Can explain records, list storage, FindIndex, and update flow from memory
 
----
+### Week 2 (Persistence)
+- [ ] Add EF Core to the API
+- [ ] Add SQL provider (SQLite or MySQL)
+- [ ] Create first migration
+- [ ] Data survives API restart
+- [ ] Update Swagger demo to use persisted data
 
-### PHP + Laravel/Framework + React
-**Pros:**
-- Easier to learn, faster to get started
-- Everywhere on cheap web hosts
-- Great for small projects and MVPs
+### Week 3 (Containerization)
+- [ ] Add Dockerfile for API
+- [ ] Add docker-compose for API + database
+- [ ] One command starts full local stack
+- [ ] README contains exact run/stop commands
 
-**Cons:**
-- Most jobs are maintaining legacy code, not building new things
-- Less versatile than C# (mostly web)
-- Declining adoption for new projects
-- Less enterprise respect
+### Week 4 (Cloud Basics)
+- [ ] Deploy API to Azure App Service (or equivalent)
+- [ ] Configure environment variables/secrets
+- [ ] Connect deployed API to managed database
+- [ ] Verify live endpoint health
 
-**Job market:** Large but mostly legacy/maintenance roles
+### Week 5 (Minimal UI)
+- [ ] Add Razor Pages or minimal frontend for project/task flows
+- [ ] Create task from UI
+- [ ] Update task status from UI
+- [ ] Show validation errors in UI
 
----
+### Week 6 (AI Feature)
+- [ ] Add Semantic Kernel package and setup
+- [ ] Implement one useful feature (example: AI task suggestions)
+- [ ] Add failure handling and safe defaults
+- [ ] Document prompt, inputs, and expected outputs
 
-### Java + Spring + React
-**Pros:**
-- More job postings than C#
-- Larger ecosystem, industry standard
-- Enterprise heavyweight
-- Cross-platform
+### Week 7-8 (Sharpen + Interview Readiness)
+- [ ] Add basic automated tests for critical API paths
+- [ ] Improve logging and error consistency
+- [ ] Record a 3-5 minute demo video
+- [ ] Update resume/LinkedIn with concrete shipped outcomes
 
-**Cons:**
-- Verbosity, boilerplate
-- Heavier ecosystem to navigate
-- More legacy baggage than C#
-
-**Job market:** Very stable, lots of enterprise roles
-
----
-
-### Node.js (TypeScript) + Express + React
-**Pros:**
-- Same language (JavaScript/TypeScript) for frontend and backend
-- Fast to build, modern async patterns
-- JavaScript ecosystem expertise transfers
-
-**Cons:**
-- Event-driven paradigm (different from OOP)
-- Less suitable for heavy computational work
-- Still mostly web-focused
-
-**Job market:** Growing, especially for startups/SaaS
+### Anti-Spiral Rules (Non-Negotiable)
+- [ ] No stack switching for 60 days
+- [ ] Weekly review based on shipped artifacts, not mood
+- [ ] No adding Python/React tracks unless tied to a real job requirement
 
 ---
 
-## Why C# Is Emerging as the Choice
+## Next Steps (Current Session)
 
-1. **Future-proof**: Modern, actively developed, cross-platform
-2. **New projects, not legacy**: Most C# jobs involve building new systems, not maintaining old ones
-3. **Versatile**: Desktop, web, cloud, games—skills transfer broadly
-4. **Career growth**: Enterprise respect, SaaS demand, cloud adoption (Azure)
-5. **Learning path**: OOP foundation transfers to Java/C++ if you pivot later
-6. **Not "legacy garbage"**: Unlike PHP, you're building forward, not maintaining the past
+1. Complete all Week 1 checklist items
+2. Mark completed items in this file immediately after verification
+3. Start Week 2 only after Week 1 is fully checked
 
----
 
-## C# + React Stack Roadmap (High Level)
-
-1. **Phase 1**: Learn C# basics (console apps, OOP, types)
-2. **Phase 2**: Learn ASP.NET Core (web APIs, HTTP, controllers)
-3. **Phase 3**: React frontend (already familiar)
-4. **Phase 4**: Full-stack project (C# backend + React frontend)
-5. **Phase 5**: Advanced (cloud deployment, databases, caching, resilience)
-
----
-
-## Decision Checklist Before Sleeping
-
-- [ ] C# feels like the right choice (future-proof, new projects, versatile)
-- [ ] PHP feels like legacy maintenance (not what you want)
-- [ ] Willing to invest time learning C# + ASP.NET Core
-- [ ] VS Code + .NET CLI feels approachable (vs. full Visual Studio)
-- [ ] Ready to build a big project with this stack
-
----
-
-## Next Steps (When You Wake Up)
-
-1. Confirm decision: C# + React?
-2. Set up C# dev environment (VS Code, .NET SDK)
-3. Create first console app
-4. Build toward a full-stack portfolio project
-5. Interview prep: OOP, design patterns, REST APIs
-
----
-
-## Key Interview Question to Prepare For
-
-"Compare PHP and C# as backend technologies for a modern web app. When would you choose one over the other?"
-
-**Your answer**: "PHP is great for quick MVPs or maintaining legacy code, but C# is better for building new systems. C# gives you modern patterns, enterprise respect, and skills that transfer to desktop and cloud—PHP is mostly web-focused and often means maintaining older codebases."
-
----
-
-## One More Thing
-
-You should notice: The difference between a "legacy maintenance" career and a "build new things" career is often just the tech stack you choose. C# puts you on teams building forward. That's a powerful position.
