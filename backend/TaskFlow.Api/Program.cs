@@ -61,11 +61,21 @@ app.MapPatch("/api/tasks/{id:guid}/status", (Guid id, UpdateTaskStatusRequest re
     return Results.Ok(updated);
 });
 
+app.MapDelete("/api/tasks/{id:guid}", (Guid id) =>
+{
+    var index = tasks.FindIndex(t => t.Id == id);
+    if (index == -1)
+        return Results.NotFound(new { message = "Task not found." });
+
+    tasks.RemoveAt(index);
+    return Results.NoContent();
+});
+
 app.MapGet("/api/projects/{id:guid}", (Guid id) =>
 {
     var project = projects.FirstOrDefault(p => p.Id == id);
     return project is null
-    ? Results.NotFound(new { message = "project not found." })
+    ? Results.NotFound(new { message = "Project not found." })
     : Results.Ok(project);
 });
 
