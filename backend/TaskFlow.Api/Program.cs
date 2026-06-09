@@ -25,6 +25,11 @@ app.MapPost("/api/tasks", (CreateTaskRequest request) =>
 {
     if (string.IsNullOrWhiteSpace(request.Title))
         return Results.BadRequest(new { message = "Task title is required." });
+    if (request.ProjectId == Guid.Empty)
+        return Results.BadRequest(new { message = "Project ID is required." });
+    if (!projects.Any(p => p.Id == request.ProjectId))
+        return Results.BadRequest(new { message = "Project ID not found." });
+
 
     var task = new TaskItem(
         Guid.NewGuid(),
@@ -48,13 +53,13 @@ app.MapPatch("/api/tasks/{id:guid}/status", (Guid id, UpdateTaskStatusRequest re
     if (index == -1)
         return Results.NotFound(new { message = "Task not found." });
 
+    var allowedStatuses = new[] { "Backlog", "In Progress", "Done" };
     // we could just do tasks[index] = tasks[index] with { Status = normalizedStatus }; but the current version is more readable.
     // honestly I feel like tasks[index] = tasks[index] with { Status = normalizedStatus }; is more readable though, I will leave it for now
     var existing = tasks[index];
     var updated = existing with { Status = normalizedStatus };
     tasks[index] = updated;
 
-    var allowedStatuses = new[] { "Backlog", "In Progress", "Done" };
     if (!allowedStatuses.Contains(normalizedStatus, StringComparer.OrdinalIgnoreCase))
         return Results.BadRequest(new { message = $"Invalid status. Allowed values are: {string.Join(", ", allowedStatuses)}." });
 
