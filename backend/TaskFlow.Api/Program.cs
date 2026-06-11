@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Http.Features;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -19,16 +21,63 @@ app.UseHttpsRedirection();
 var projects = new List<Project>();
 var tasks = new List<TaskItem>();
 
+// Project ID helper check
+static IResult? ValidateProjectExists(List<Project> projects, Guid projectId)
+{
+    if (!projects.Any(p => p.Id == projectId))
+        return Results.BadRequest(new { message = "Project ID not found." });
+    return null;
+}
+
+// project ID is required
+static IResult? ValidateProjectIdIsRequired(CreateTaskRequest request)
+{
+    if (request.ProjectId == Guid.Empty)
+        return Results.BadRequest(new { message = "Project ID is required." });
+    return null;
+}
+
+// Task Title null or whitespace checked
+static IResult? ValidateStringIsRequired(string? title)
+{
+    if (string.IsNullOrWhiteSpace(title))
+        return Results.BadRequest(new { message = "Task title is required." });
+    return null;
+}
+
+// Task Id is required
+static IResult? ValidateTaskIdExists(List<TaskItem> tasks, Guid id)
+{
+    var index = tasks.FindIndex(t => t.Id == id);
+    if (index == -1)
+        return Results.NotFound(new { message = "Task ID not found." });
+    return null;
+}
+
+
 app.MapGet("/api/tasks", () => Results.Ok(tasks));
+
+app.MapGet("/api/tasks/{id:guid}", (Guid id) =>
+{
+    var task = tasks.FirstOrDefault(t => t.Id == id);
+    return task is null
+    ? Results.NotFound(new { message = "Task not found." })
+    : Results.Ok(task);
+});
 
 app.MapPost("/api/tasks", (CreateTaskRequest request) =>
 {
-    if (string.IsNullOrWhiteSpace(request.Title))
-        return Results.BadRequest(new { message = "Task title is required." });
-    if (request.ProjectId == Guid.Empty)
-        return Results.BadRequest(new { message = "Project ID is required." });
-    if (!projects.Any(p => p.Id == request.ProjectId))
-        return Results.BadRequest(new { message = "Project ID not found." });
+    //task and both project validations
+    IResult? error;
+    error = ValidateProjectExists(projects, request.ProjectId);
+    if (error is not null)
+        return error;
+    error = ValidateProjectIdIsRequired(request);
+    if (error is not null)
+        return error;
+    error = ValidateStringIsRequired(request.Title);
+    if (error is not null)
+        return error;
 
 
     var task = new TaskItem(
@@ -46,18 +95,21 @@ app.MapPost("/api/tasks", (CreateTaskRequest request) =>
 app.MapPatch("/api/tasks/{id:guid}/status", (Guid id, UpdateTaskStatusRequest request) =>
 {
     var normalizedStatus = request.Status?.Trim();
-    if (string.IsNullOrWhiteSpace(normalizedStatus))
-        return Results.BadRequest(new { message = "Task status failed." });
+    IResult? error;
+    error = ValidateStringIsRequired(normalizedStatus);
+    if (error is not null)
+        return error;
 
-    var index = tasks.FindIndex(t => t.Id == id);
-    if (index == -1)
-        return Results.NotFound(new { message = "Task not found." });
+    error = ValidateTaskIdExists(tasks, id);
+    if (error is not null)
+        return error;
 
     var allowedStatuses = new[] { "Backlog", "In Progress", "Done" };
     // we could just do tasks[index] = tasks[index] with { Status = normalizedStatus }; but the current version is more readable.
     // honestly I feel like tasks[index] = tasks[index] with { Status = normalizedStatus }; is more readable though, I will leave it for now
+    var index = tasks.FindIndex(t => t.Id == id);
     var existing = tasks[index];
-    var updated = existing with { Status = normalizedStatus };
+    var updated = existing with { Status = normalizedStatus! };
     tasks[index] = updated;
 
     if (!allowedStatuses.Contains(normalizedStatus, StringComparer.OrdinalIgnoreCase))
@@ -68,12 +120,29 @@ app.MapPatch("/api/tasks/{id:guid}/status", (Guid id, UpdateTaskStatusRequest re
 
 app.MapDelete("/api/tasks/{id:guid}", (Guid id) =>
 {
-    var index = tasks.FindIndex(t => t.Id == id);
-    if (index == -1)
-        return Results.NotFound(new { message = "Task not found." });
+    IResult? error;
+    error = ValidateTaskIdExists(tasks, id);
+    if (error is not null)
+        return error;
 
+    // delete
+    var index = tasks.FindIndex(t => t.Id == id);
     tasks.RemoveAt(index);
     return Results.NoContent();
+});
+
+app.MapGet("/api/projects/{id:guid}/tasks", (Guid id) =>
+{
+    var project = projects.FirstOrDefault(p => p.Id == id);
+    if (project is null)
+        return Results.NotFound(new { message = "Project not found." });
+
+    var projectTasks = tasks.Where(t => t.ProjectId == id).ToList();
+    return Results.Ok(new
+    {
+        project,
+        tasks = projectTasks
+    });
 });
 
 app.MapGet("/api/projects/{id:guid}", (Guid id) =>
@@ -129,6 +198,7 @@ app.MapDelete("/api/projects/{id:guid}", (Guid id) =>
         return Results.NotFound(new { message = "Project not found." });
 
     projects.RemoveAt(index);
+    tasks.RemoveAll(t => t.ProjectId == id);
     return Results.NoContent();
 });
 
