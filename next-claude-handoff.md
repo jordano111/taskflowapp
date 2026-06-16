@@ -1,53 +1,38 @@
-# Claude Handoff: TaskFlow Project (C# + React)
+# Claude Handoff: TaskFlow Project (C# + ASP.NET Core)
 
-## Decision Made
-- **Stack**: C# + ASP.NET Core (backend) + React (frontend)
-- **Why**: Modern, future-proof, building new things (not legacy maintenance)
-- **IDE**: VS Code + .NET CLI (not Visual Studio yet)
+## Current Status
+- **Week 1: DONE**
+- **Program.cs: FIXED and building**
+- **Week 2: NOT STARTED** — ready to begin after Swagger verified
 
-## Project: TaskFlow
-- **Type**: Project management application
-- **Purpose**: Learn C# + React full-stack development
-- **Timeline**: 2-4 weeks (1-2 hours daily)
+## First Thing Next Session
+Run the app and verify Swagger still works:
+```
+dotnet run
+```
+Test the basic flow: create project → create task → update status → delete. Then start Week 2.
 
-## Phase 1 Scope
-1. C# REST API (ASP.NET Core)
-2. React dashboard
-3. Database (SQL)
-4. Simple authentication (email/password)
-5. Features: Create projects, add tasks, manage status
+## Week 2 Plan
+1. Add EF Core NuGet packages
+2. Create DbContext
+3. Create first migration
+4. Swap in-memory lists → database
+5. Test in Swagger (data should survive restart)
+
+## Stack
+- **Backend**: C# + ASP.NET Core minimal API, .NET 8
+- **Models**: Classes (not records) — intentional for EF Core compatibility
+- **Frontend**: Razor Pages (Week 5), React optional Week 7
+- **Database**: SQLite (Week 2)
+- **Roadmap**: `c-sharp-decision-summary.md`
+- **Progress log**: `claude-code-progression.md`
 
 ## Teaching Approach
-- Use a "guided independence" model (not answer-dumping, not sink-or-swim)
-- Plain-language explanations ("why" before "what")
-- Small, verified batches (plan → build → test → reflect)
-- Interview-prep question after each major concept
-
-## Learning Protocol
-Single source of truth: see learning-protocol.md.
-Do not duplicate or redefine protocol rules in this file.
-
-## Tomorrow's First Tasks (when user returns)
-1. Verify .NET SDK is installed
-2. Verify Node.js is installed
-3. Create TaskFlow project folder structure
-4. Create C# backend project
-5. Create first "Hello World" API
-
-## Environment Requirements
-- .NET SDK (latest)
-- Node.js + npm
-- VS Code + C# extension
-- Git (optional but recommended)
-
-## Key Interview Questions to Prepare
-- "Why did you choose C# over PHP/Python/Java?"
-- "What are the benefits of ASP.NET Core?"
-- "How do REST APIs work?"
-- "What's the difference between frontend and backend?"
+- Guided independence — user drives, Claude gives hints
+- Default: guidance-only. User must say "implement mode" or "approve action" for Claude to edit files
+- See `learning-protocol.md` for full protocol
 
 ## User Notes
-- Prone to second-guessing; needs reassurance and clear direction
-- Prefers teaching-first, step-by-step approach
-- Wants to understand "why" behind decisions
-- Has experience with TypeScript/JavaScript/Node.js
+- TypeScript/JavaScript background — use those analogies when helpful
+- Prone to spiraling when stuck — redirect to the specific blocker, don't let direction debates take over
+- In Utah — React is dominant locally, worth adding later for job market

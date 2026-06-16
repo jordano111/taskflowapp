@@ -1,4 +1,7 @@
 using Microsoft.AspNetCore.Http.Features;
+using TaskFlow.Api.Requests;
+using TaskFlow.Api.Models;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -80,13 +83,19 @@ app.MapPost("/api/tasks", (CreateTaskRequest request) =>
         return error;
 
 
-    var task = new TaskItem(
-        Guid.NewGuid(),
-        request.ProjectId,
-        request.Title.Trim(),
-        "Backlog",
-        DateTime.UtcNow
-    );
+    // public Guid Id { get; init; }
+    // public Guid ProjectId { get; init; }
+    // public string Title { get; set; } = string.Empty;
+    // public string Status { get; set; } = string.Empty;
+    // public DateTime CreatedAtUtc { get; init; }
+    var task = new TaskItem
+    {
+        Id = Guid.NewGuid(),
+        ProjectId = request.ProjectId,
+        Title = request.Title.Trim(),
+        Status = "Backlog",
+        CreatedAtUtc = DateTime.UtcNow,
+    };
 
     tasks.Add(task);
     return Results.Created($"/api/tasks/{task.Id}", task);
@@ -108,14 +117,12 @@ app.MapPatch("/api/tasks/{id:guid}/status", (Guid id, UpdateTaskStatusRequest re
     // we could just do tasks[index] = tasks[index] with { Status = normalizedStatus }; but the current version is more readable.
     // honestly I feel like tasks[index] = tasks[index] with { Status = normalizedStatus }; is more readable though, I will leave it for now
     var index = tasks.FindIndex(t => t.Id == id);
-    var existing = tasks[index];
-    var updated = existing with { Status = normalizedStatus! };
-    tasks[index] = updated;
+    tasks[index].Status = normalizedStatus!;
 
     if (!allowedStatuses.Contains(normalizedStatus, StringComparer.OrdinalIgnoreCase))
         return Results.BadRequest(new { message = $"Invalid status. Allowed values are: {string.Join(", ", allowedStatuses)}." });
 
-    return Results.Ok(updated);
+    return Results.Ok(tasks[index]);
 });
 
 app.MapDelete("/api/tasks/{id:guid}", (Guid id) =>
@@ -162,10 +169,12 @@ app.MapPost("/api/projects", (CreateProjectRequest request) =>
         return Results.BadRequest(new { message = "Project name is required." });
 
     // else create new project with NewGuid, the name from the request, and the date it was created (UTC)
-    var project = new Project(
-        Guid.NewGuid(),
-        request.Name.Trim(),
-        DateTime.UtcNow);
+    var project = new Project
+    {
+        Id = Guid.NewGuid(),
+        Name = request.Name.Trim(),
+        CreatedAtUtc = DateTime.UtcNow,
+    };
 
     projects.Add(project);
 
@@ -182,13 +191,11 @@ app.MapPatch("/api/projects/{id:guid}/name", (Guid id, UpdateProjectNameRequest 
 
     var index = projects.FindIndex(p => p.Id == id);
     if (index == -1)
-        return Results.NotFound(new { message = "Project not found." });
+        return Results.NotFound(new { message = "Project not found. (ID missing)" });
 
-    var existing = projects[index];
-    var updated = existing with { Name = normalizedName };
-    projects[index] = updated;
+    projects[index].Name = normalizedName!;
 
-    return Results.Ok(updated);
+    return Results.Ok(projects[index]);
 });
 
 app.MapDelete("/api/projects/{id:guid}", (Guid id) =>
@@ -204,10 +211,6 @@ app.MapDelete("/api/projects/{id:guid}", (Guid id) =>
 
 app.Run();
 
-// record declarations define the shape of the object being creating
-record TaskItem(Guid Id, Guid ProjectId, string Title, string Status, DateTime CreatedAtUtc);
-record CreateTaskRequest(Guid ProjectId, string Title);
-record UpdateTaskStatusRequest(string Status);
-record Project(Guid Id, string Name, DateTime CreatedAtUtc);
-record CreateProjectRequest(string Name);
-record UpdateProjectNameRequest(string Name);
+
+
+
